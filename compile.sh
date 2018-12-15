@@ -1,3 +1,3 @@
 rm -rvf build/*
 truffle compile
-truffle migrate > /dev/null
+truffle migrate > dump.txt

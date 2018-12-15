@@ -2,6 +2,7 @@ from flask import render_template, request, flash, redirect, url_for
 from app import *
 import os
 from app.models import FileData
+import requests
 
 CONTRACT_ADDRESS = None
 CONTRACT_ABI = None
@@ -33,6 +34,40 @@ def deploy_contract():
     session['contract_address'] = CONTRACT_ADDRESS
 
     os.chdir('flask/organization')
+
+
+def fetch_file_data():
+    contract = server.eth.contract(address=CONTRACT_ADDRESS,
+                                   abi=CONTRACT_ABI)
+
+    # Get all registered users
+    users = contract.call().getRegisteredUsers()
+
+    fileData = []
+
+    for i in users:
+        ipfsHash = contract.call().getIpfsHashForUser(i)
+        fileName = contract.call().getFileNameForUser(i)
+        print(fileName)
+        model_number = contract.call().getModelNumberForUser(i)
+        fileData.append(FileData(fileName, ipfsHash, model_number, i))
+
+    return fileData
+
+
+def fetch_models_from_ipfs(fileData):
+    if not os.path.exists('models'):
+        os.mkdir('models')
+
+    for file in fileData:
+        req = requests.get("http://localhost:8080/ipfs/" + file.ipfsHash)
+
+        if req.status_code != 200:
+            print("Failed to retrieve", file.fileName)
+
+        else:
+            with open("models/" + file.accountNumber, "wb") as f:
+                f.write(req.content)
 
 
 def bytes32_to_string(x):
@@ -70,19 +105,13 @@ def choose_account(account_no):
 @app.route('/display_files', methods=['GET'])
 def display():
     if request.method == 'GET':
-        contract = server.eth.contract(address=CONTRACT_ADDRESS,
-                                       abi=CONTRACT_ABI)
-
-        # Get all registered users
-        users = contract.call().getRegisteredUsers()
-
-        fileData = []
-
-        for i in users:
-            ipfsHash = contract.call().getIpfsHashForUser(i)
-            fileName = contract.call().getFileNameForUser(i)
-            print(fileName)
-            model_number = contract.call().getModelNumberForUser(i)
-            fileData.append(FileData(fileName, ipfsHash, model_number, i))
-
+        fileData = fetch_file_data()
         return render_template('files.html', fileData=fileData)
+
+
+@app.route('/download', methods=['GET', 'POST'])
+def download():
+    if request.method == 'POST':
+        fetch_models_from_ipfs(fetch_file_data())
+        print("Done")
+        return redirect(url_for('display'))

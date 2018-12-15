@@ -1,2 +1,4 @@
 *.idea*
 *.pyc
+flask/client/uploads/*
+flask/organization/models/*

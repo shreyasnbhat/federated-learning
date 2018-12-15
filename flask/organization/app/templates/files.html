@@ -18,6 +18,14 @@
 </nav>
 <div class="container">
     <div class="row">
+
+    </div>
+    <div class="row">
+        <form action="{{ url_for('download') }}" method="POST">
+            <button name="action" class="waves-effect waves-light btn orange darken-2">Download Models</button>
+        </form>
+    </div>
+    <div class="row">
         <div class="col s12">
             <ul class="collection">
                 {% for file in fileData %}
@@ -26,7 +34,6 @@
                         <h6 class="col s6"><strong>File Name </strong> {{ file.fileName }}</h6>
                         <h6 class="col s6"><strong>IPFS Hash </strong>{{ file.ipfsHash }}</h6>
                         <h6 class="col s6"><strong>Model Number</strong> {{ file.modelNumber }}</h6>
-
                     </li>
                 {% endfor %}
             </ul>
