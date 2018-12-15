@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contract Publisher</title>
+
+    <link href="{{ url_for('static', filename='css/materialize.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/home_styles.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+<nav>
+    <div class="nav-wrapper red darken-3">
+        <a href="{{ url_for('homepage') }}" class="brand-logo title-style">Contract Publisher</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="collection">
+                {% for account in accounts %}
+                    <li class="collection-item row">
+                        <div class="col s10">
+                            <h5 class="title">Account {{ loop.index0 }}</h5>
+                            <p class="very-small-font">{{ account }}</p>
+                        </div>
+                        <div class="col s2">
+                            <form action="{{ url_for('choose_account',account_no=account) }}" method="POST">
+                                <button name="action" class="waves-effect waves-light btn-large orange darken-2">Choose
+                                    Account
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col s6">
+        </div>
+    </div>
+</div>
+</body>
+</html>

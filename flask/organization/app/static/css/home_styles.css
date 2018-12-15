@@ -1,0 +1,56 @@
+.black-font {
+    color: #000000;
+}
+
+.very-small-font {
+    font-size: 20px;
+    color: #000000;
+    font-family: "Roboto Slab", Roboto;
+}
+
+.small-font {
+    font-size: 34px;
+    color: #000000;
+    font-family: "Roboto Slab", Roboto;
+}
+
+.medium-font {
+    font-size: 45px;
+    color: #000000;
+    font-family: "Roboto Slab", Roboto;
+}
+
+.large-font {
+    font-size: 56px;
+    color: #000000;
+    font-family: "Roboto Slab", Roboto;
+}
+
+.login-style {
+    padding: 40px;
+    margin: 40px;
+}
+
+.candidate-name {
+  color: #ffb300;
+  margin-left: 10px;
+}
+
+.title-style {
+    margin-left: 10px;
+}
+
+.block-style {
+    padding: 10px;
+    margin: 10px;
+}
+
+.image-icon-list {
+    padding: 10px;
+}
+
+.error {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-style: normal;
+    color: indianred;
+}

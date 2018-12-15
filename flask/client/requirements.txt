@@ -1,0 +1,7 @@
+flask
+pyopenssl
+web3
+Flask-Session
+redis
+ipfsapi
+Flask-QRcode

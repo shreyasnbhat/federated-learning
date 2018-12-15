@@ -1,0 +1,6 @@
+flask
+pyopenssl
+web3
+Flask-Session
+redis
+py-solc

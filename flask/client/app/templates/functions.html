@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contract Functions</title>
+
+    <link href="{{ url_for('static', filename='css/materialize.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/home_styles.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper blue darken-3">
+        <a href="{{ url_for('homepage') }}" class="brand-logo title-style">Federated Learning</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+
+        <h4>{{ account }} is being used.</h4>
+    </div>
+    <div class="row">
+        <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data'>
+            <div class="row">
+                <div class="input-field col s2">
+                    <input placeholder="Model Number" name="model_number" id="model_number" type="number"
+                           class="validate">
+                    <label for="first_name">Model Number</label>
+                </div>
+                <div class="file-field input-field col s8">
+                    <div class="btn col s2">
+                        <span>File</span>
+                        <input type="file" name="file">
+                    </div>
+                    <div class="file-path-wrapper col s10">
+                        <input class="file-path validate"
+                               placeholder="Filename"
+                                name="filename">
+                    </div>
+                </div>
+
+                <button name="action" class="waves-effect waves-light btn-large orange darken-2 col s2">Add Transaction
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        {% if success == True %}
+            <div class="col s6 offset-s3">
+                <h3>Your model was submitted successfully.</h3>
+            </div>
+        {% elif success == False %}
+            <div class="col s6 offset-s3">
+                <h3>Your model submission has failed.</h3>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if error %}
+        <div class="col s6 offset-s3">
+            <h3>File upload failed.</h3>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contract Publisher</title>
+
+    <link href="{{ url_for('static', filename='css/materialize.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/home_styles.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+<nav>
+    <div class="nav-wrapper red darken-3">
+        <a href="{{ url_for('homepage') }}" class="brand-logo title-style">Contract Publisher</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('display') }}">View Models</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col s8">
+            <div class="row">
+                <div class="col s4">
+                    <p class="very-small-font">Learning Contract</p>
+                    <form action="{{ url_for('homepage') }}" method="POST">
+                        <button name="action" class="waves-effect waves-light btn orange darken-2">Deploy</button>
+                    </form>
+                </div>
+            </div>
+            {% if deployed %}
+                <div class="col s4">
+                    <p class="very-small-font"> The contract was deployed at <strong>{{ address }}</strong></p>
+                    <a href="{{ url_for('choose_account') }}">
+                        <button name="action" class="waves-effect waves-light btn orange darken-2">Choose Account
+                        </button>
+                    </a>
+                </div>
+                <div class="row">
+                </div>
+            {% endif %}
+        </div>
+        {% if deployed %}
+            <div class="col s4">
+                <img class="block-style" src="{{ qrcode(address) }}"/>
+                <p class="very-small-font"> Scan the QR code to receive contract address</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
