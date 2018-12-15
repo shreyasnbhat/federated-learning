@@ -16,8 +16,7 @@
 </nav>
 <div class="container">
     <div class="row">
-
-        <h4>{{ account }} is being used.</h4>
+        <h5>{{ account }} is being used.</h5>
     </div>
     <div class="row">
         <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data'>
@@ -28,20 +27,24 @@
                     <label for="first_name">Model Number</label>
                 </div>
                 <div class="file-field input-field col s8">
-                    <div class="btn col s2">
+                    <div class="btn col s2 orange darken-2">
                         <span>File</span>
                         <input type="file" name="file">
                     </div>
                     <div class="file-path-wrapper col s10">
                         <input class="file-path validate"
                                placeholder="Filename"
-                                name="filename">
+                               name="filename">
                     </div>
                 </div>
 
                 <button name="action" class="waves-effect waves-light btn-large orange darken-2 col s2">Add Transaction
                 </button>
             </div>
+        </form>
+        <form action="{{ url_for('checkpoint_model_pull') }}" method="POST">
+            <button name="action" class="waves-effect waves-light btn-large orange darken-2 col s2">Pull Model from Server
+            </button>
         </form>
     </div>
     <div class="row">
@@ -57,9 +60,9 @@
     </div>
     <div class="row">
         {% if error %}
-        <div class="col s6 offset-s3">
-            <h3>File upload failed.</h3>
-        </div>
+            <div class="col s6 offset-s3">
+                <h3>File upload failed.</h3>
+            </div>
         {% endif %}
     </div>
 </body>

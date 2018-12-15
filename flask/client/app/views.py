@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for
 from app import *
 import ipfsapi
-import os, time
+import os, time, requests
 
 
 def bytes32_to_string(x):
@@ -10,6 +10,20 @@ def bytes32_to_string(x):
         output = output + '0'
     output = bytes.fromhex(output).decode('utf8')
     return output
+
+def fetch_model_from_ipfs(ipfsHash):
+
+    if not os.path.exists('models'):
+        os.mkdir('models')
+
+    req = requests.get("http://localhost:8080/ipfs/" + ipfsHash)
+
+    if req.status_code != 200:
+        print("Failed to retrieve checkpoint")
+
+    else:
+        with open("models/model_ckpt", "wb") as f:
+            f.write(req.content)
 
 
 @app.route('/', defaults={'account_no': None}, methods=['GET', 'POST'])
@@ -95,3 +109,17 @@ def upload_file_sync(upload_file_filename_secure):
 
     print("Finished")
     return True
+
+@app.route('/model_pull',methods=['POST'])
+def checkpoint_model_pull():
+    contract = server.eth.contract(address=CONTRACT_ADDRESS,
+                                   abi=CONTRACT_ABI)
+
+    account = session.get('account', DEFAULT_ACCOUNT)
+
+    ipfsHash = contract.call().getIpfsHashForCheckpoint()
+
+    print(ipfsHash)
+
+    return redirect(url_for('addFileToIPFS'))
+

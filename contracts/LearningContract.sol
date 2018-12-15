@@ -13,16 +13,13 @@ contract LearningContract {
     mapping(address => FileName) public filenames;
     address[] registeredUsers;
     uint noOfRegisteredUsers;
+    string checkpointIpfsHash;
 
     constructor () public {
         owner = msg.sender;
         noOfRegisteredUsers = 0;
     }
 
-    modifier isOwner(address _owner) {
-        require(msg.sender == _owner);
-        _;
-    }
 
     function checkExistence(address testAddress) private view returns (bool) {
         for (uint i = 0; i < noOfRegisteredUsers; i++) {
@@ -49,13 +46,12 @@ contract LearningContract {
 
     }
 
-
-    function collateModels() public view isOwner(msg.sender) returns (bool) {
-        return true;
-    }
-
     function getIpfsHashForUser(address user) public view returns (string){
         return filenames[user].ipfsHash;
+    }
+
+    function getIpfsHashForCheckpoint() public view returns (string){
+        return checkpointIpfsHash;
     }
 
     function getFileNameForUser(address user) public view returns (string){
@@ -73,6 +69,11 @@ contract LearningContract {
 
     function getRegisteredUsers() public view returns (address[]) {
         return registeredUsers;
+    }
+
+    function setCheckPointIpfsHash(string ipfsHash) public {
+        require(msg.sender == owner);
+        checkpointIpfsHash = ipfsHash;
     }
 
 
