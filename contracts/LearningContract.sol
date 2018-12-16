@@ -76,5 +76,9 @@ contract LearningContract {
         checkpointIpfsHash = ipfsHash;
     }
 
+    function getCheckPointIpfsHash() public view returns(string) {
+        return checkpointIpfsHash;
+    }
+
 
 }

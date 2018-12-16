@@ -3,6 +3,7 @@ from app import *
 import os
 from app.file_model import FileData
 import requests
+import ipfsapi
 
 CONTRACT_ADDRESS = None
 CONTRACT_ABI = None
@@ -121,7 +122,27 @@ def download():
 def average():
     os.chdir('../ai')
     print(os.path.abspath(os.curdir))
-    os.system('python3 ai.py org ../organization/models/merged.pkl > /dev/null')
+    os.system('python3 ai.py org ../organization/models/model.pkl > /dev/null')
     os.chdir('../organization')
+
+    return redirect(url_for('display'))
+
+
+@app.route('/publish', methods=['POST'])
+def publish():
+    api = ipfsapi.connect('127.0.0.1', 5001)
+    res = api.add('models/model.pkl')
+    ipfsHash = res['Hash']
+
+    contract = server.eth.contract(address=CONTRACT_ADDRESS,
+                                   abi=CONTRACT_ABI)
+
+    account = session.get('account', DEFAULT_ACCOUNT)
+
+    if account is not None:
+        tx_hash = contract.functions.setCheckPointIpfsHash(ipfsHash).transact(
+            {'from': account})
+        receipt = server.eth.waitForTransactionReceipt(tx_hash)
+        print("Gas Used ", receipt.gasUsed)
 
     return redirect(url_for('display'))

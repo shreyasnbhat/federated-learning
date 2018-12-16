@@ -21,10 +21,13 @@
 
     </div>
     <div class="row">
-        <form action="{{ url_for('download') }}" method="POST" class="col s6">
+        <form action="{{ url_for('publish') }}" method="POST" class="col s4">
+            <button name="action" class="waves-effect waves-light btn orange darken-2">Publish Initial Model</button>
+        </form>
+        <form action="{{ url_for('download') }}" method="POST" class="col s4">
             <button name="action" class="waves-effect waves-light btn orange darken-2">Download Models</button>
         </form>
-          <form action="{{ url_for('average') }}" method="POST" class="col s6">
+          <form action="{{ url_for('average') }}" method="POST" class="col s4">
             <button name="action" class="waves-effect waves-light btn orange darken-2">Average Models</button>
         </form>
     </div>

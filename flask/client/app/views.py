@@ -22,7 +22,7 @@ def fetch_model_from_ipfs(ipfsHash):
         print("Failed to retrieve checkpoint")
 
     else:
-        with open("models/model_ckpt", "wb") as f:
+        with open("models/model.pkl", "wb") as f:
             f.write(req.content)
 
 
@@ -46,7 +46,7 @@ def contract_operations():
         return None
 
 
-@app.route('/addFileToIPFS', methods=['POST'])
+@app.route('/addFileToIPFS', methods=['GET','POST'])
 def addFileToIPFS():
     if request.method == 'POST':
 
@@ -90,8 +90,10 @@ def addFileToIPFS():
                 flash('No account was chosen')
                 return render_template('functions.html', account=account, success=False)
 
-    return render_template('functions.html', error="Something went wrong.")
+        return render_template('functions.html', error="Something went wrong.")
 
+    account = session.get('account', DEFAULT_ACCOUNT)
+    return render_template('functions.html', account = account)
 
 def upload_file_sync(upload_file_filename_secure):
     with app.app_context():
@@ -118,9 +120,11 @@ def checkpoint_model_pull():
 
     account = session.get('account', DEFAULT_ACCOUNT)
 
-    ipfsHash = contract.call().getIpfsHashForCheckpoint()
+    ipfsHash = contract.call().getCheckPointIpfsHash()
 
-    print(ipfsHash)
+    print("IPFS Hash" , ipfsHash)
+
+    fetch_model_from_ipfs(ipfsHash)
 
     return redirect(url_for('addFileToIPFS'))
 
@@ -129,7 +133,7 @@ def checkpoint_model_pull():
 def train():
     os.chdir('../ai')
     print(os.path.abspath(os.curdir))
-    os.system('python3 ai.py client ../client/models/initial.pkl ../client/models/final.pkl > /dev/null')
+    os.system('python3 ai.py client ../client/models/model.pkl ../client/models/model.pkl > /dev/null')
     os.chdir('../client')
 
     return redirect(url_for('addFileToIPFS'))
