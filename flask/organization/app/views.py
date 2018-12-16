@@ -133,12 +133,12 @@ def publish():
     api = ipfsapi.connect('127.0.0.1', 5001)
     res = api.add('models/model.pkl')
     ipfsHash = res['Hash']
-
+    print(ipfsHash)
     contract = server.eth.contract(address=CONTRACT_ADDRESS,
                                    abi=CONTRACT_ABI)
 
     account = session.get('account', DEFAULT_ACCOUNT)
-
+    print(account)
     if account is not None:
         tx_hash = contract.functions.setCheckPointIpfsHash(ipfsHash).transact(
             {'from': account})

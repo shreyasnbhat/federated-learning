@@ -20,23 +20,45 @@
     <div class="row">
 
     </div>
+
+    <div class="col s4 offset s4">
+        <h5>
+            <center>Functions</center>
+        </h5>
+    </div>
+    <hr>
+    <br>
     <div class="row">
-        <form action="{{ url_for('publish') }}" method="POST" class="col s4">
-            <button name="action" class="waves-effect waves-light btn orange darken-2">Publish Initial Model</button>
-        </form>
-        <form action="{{ url_for('download') }}" method="POST" class="col s4">
-            <button name="action" class="waves-effect waves-light btn orange darken-2">Download Models</button>
-        </form>
-          <form action="{{ url_for('average') }}" method="POST" class="col s4">
-            <button name="action" class="waves-effect waves-light btn orange darken-2">Average Models</button>
+        <form action="{{ url_for('publish') }}" method="POST" class="col s4 offset-s4">
+            <button name="action" class="waves-effect waves-light btn orange darken-2 col s12">Publish Initial Model
+            </button>
         </form>
     </div>
+    <div class="row">
+        <form action="{{ url_for('download') }}" method="POST" class="col s4 offset-s4">
+            <button name="action" class="waves-effect waves-light btn orange darken-2 col s12">Download Models</button>
+        </form>
+    </div>
+    <div class="row">
+        <form action="{{ url_for('average') }}" method="POST" class="col s4 offset-s4">
+            <button name="action" class="waves-effect waves-light btn orange darken-2 col s12">Average Models</button>
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="col s4 offset s4">
+        <h5>
+            <center>Model List</center>
+        </h5>
+    </div>
+    <hr>
     <div class="row">
         <div class="col s12">
             <ul class="collection">
                 {% for file in fileData %}
                     <li class="collection-item row">
-                        <h5 class="col s6">Account No {{ file.accountNumber }}</h5>
+                        <h5 class="col s6">Account No <strong>{{ file.accountNumber }}</strong></h5>
                         <h6 class="col s6"><strong>File Name </strong> {{ file.fileName }}</h6>
                         <h6 class="col s6"><strong>IPFS Hash </strong>{{ file.ipfsHash }}</h6>
                         <h6 class="col s6"><strong>Model Number</strong> {{ file.modelNumber }}</h6>

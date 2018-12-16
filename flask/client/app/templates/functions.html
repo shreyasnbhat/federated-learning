@@ -15,15 +15,16 @@
     </div>
 </nav>
 <div class="container">
+    <br>
     <div class="row">
-        <h5>{{ account }} is being used.</h5>
+        <h6><strong>{{ account }} </strong> is being used.</h6>
     </div>
 
     <div class="row">
-        <div class="col s2">
+        <div class="col s12">
             <h6>1. Adding stuff to IPFS</h6>
         </div>
-        <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data' class="col s10">
+        <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data' class="col s12">
             <div class="row">
                 <div class="input-field col s2">
                     <input placeholder="Model Number" name="model_number" id="model_number" type="number"
@@ -49,7 +50,7 @@
     </div>
     <div class="row">
         <div class="col s2">
-            <h6>2. Train out local network</h6>
+            <h6>2. Train the local network</h6>
         </div>
         <form action="{{ url_for('train') }}" method="POST" class="col s10">
             <button name="action" class="waves-effect waves-light btn-large orange darken-2">Train
@@ -69,18 +70,18 @@
 <div class="row">
     {% if success == True %}
         <div class="col s6 offset-s3">
-            <h3>Your model was submitted successfully.</h3>
+            <h5><center>Your model was submitted successfully.</center></h5>
         </div>
     {% elif success == False %}
         <div class="col s6 offset-s3">
-            <h3>Your model submission has failed.</h3>
+            <h5><center>Your model submission has failed.</center></h5>
         </div>
     {% endif %}
 </div>
 <div class="row">
     {% if error %}
         <div class="col s6 offset-s3">
-            <h3>File upload failed.</h3>
+            <h5><center>File upload failed.</center></h5>
         </div>
     {% endif %}
 </div>
