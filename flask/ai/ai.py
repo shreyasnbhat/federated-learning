@@ -5,9 +5,7 @@ from sklearn.model_selection import train_test_split
 import sys
 import matplotlib.pyplot as plt
 from model import Model
-
 import pickle
-
 from keras.datasets import mnist
 
 MAX_CLIENTS = 2
@@ -116,9 +114,10 @@ def ClientUpdate(model_filename, output_file):
         for i in range(MAX_CLIENTS):
             m = models[i]
             m.load_weights(model_filename)
-            m.compute_fisher(X_t, sess, num_samples=200, plot_diffs=False)
-            acc = train_task(m, epochs, batch_size, 20, [X[i], y[i]], [(X[0], y[0]), (X[1], y[1]), (X_t, y_t)], placeX[i],
-                       placey[i], lams=[0, 25])
+            m.compute_fisher(X_val, sess, num_samples=200, plot_diffs=False)
+            m.star()
+            acc = train_task(m, epochs, batch_size, 50, [X[i], y[i]], [(X[0], y[0]), (X[1], y[1]), (X_t, y_t)], placeX[i],
+                       placey[i], lams=[25])
             m.save_weights(output_file)
             print(i)
             accs.append(acc[-1][-1])
