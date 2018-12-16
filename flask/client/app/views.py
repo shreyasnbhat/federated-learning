@@ -11,8 +11,8 @@ def bytes32_to_string(x):
     output = bytes.fromhex(output).decode('utf8')
     return output
 
-def fetch_model_from_ipfs(ipfsHash):
 
+def fetch_model_from_ipfs(ipfsHash):
     if not os.path.exists('models'):
         os.mkdir('models')
 
@@ -110,7 +110,8 @@ def upload_file_sync(upload_file_filename_secure):
     print("Finished")
     return True
 
-@app.route('/model_pull',methods=['POST'])
+
+@app.route('/model_pull', methods=['POST'])
 def checkpoint_model_pull():
     contract = server.eth.contract(address=CONTRACT_ADDRESS,
                                    abi=CONTRACT_ABI)
@@ -123,3 +124,12 @@ def checkpoint_model_pull():
 
     return redirect(url_for('addFileToIPFS'))
 
+
+@app.route('/train', methods=['POST'])
+def train():
+    os.chdir('../ai')
+    print(os.path.abspath(os.curdir))
+    os.system('python3 ai.py client ../client/models/initial.pkl ../client/models/final.pkl > /dev/null')
+    os.chdir('../client')
+
+    return redirect(url_for('addFileToIPFS'))

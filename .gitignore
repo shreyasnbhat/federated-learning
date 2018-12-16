@@ -2,3 +2,6 @@
 *.pyc
 flask/client/uploads/*
 flask/organization/models/*
+flask/client/models/*
+build/contracts/*.json
+*__pycache__*

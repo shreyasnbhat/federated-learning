@@ -21,8 +21,11 @@
 
     </div>
     <div class="row">
-        <form action="{{ url_for('download') }}" method="POST">
+        <form action="{{ url_for('download') }}" method="POST" class="col s6">
             <button name="action" class="waves-effect waves-light btn orange darken-2">Download Models</button>
+        </form>
+          <form action="{{ url_for('average') }}" method="POST" class="col s6">
+            <button name="action" class="waves-effect waves-light btn orange darken-2">Average Models</button>
         </form>
     </div>
     <div class="row">

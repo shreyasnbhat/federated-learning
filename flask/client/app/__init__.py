@@ -11,7 +11,7 @@ app.secret_key = 'secret_key'
 BASE_PATH = '/home/shreyas/Code/'
 
 UPLOAD_FOLDER = BASE_PATH + 'federated-learning/flask/client/uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','pkl'])
 
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)

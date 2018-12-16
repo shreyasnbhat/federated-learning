@@ -18,8 +18,12 @@
     <div class="row">
         <h5>{{ account }} is being used.</h5>
     </div>
+
     <div class="row">
-        <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data'>
+        <div class="col s2">
+            <h6>1. Adding stuff to IPFS</h6>
+        </div>
+        <form action="{{ url_for('addFileToIPFS') }}" method="POST" enctype='multipart/form-data' class="col s10">
             <div class="row">
                 <div class="input-field col s2">
                     <input placeholder="Model Number" name="model_number" id="model_number" type="number"
@@ -42,28 +46,43 @@
                 </button>
             </div>
         </form>
-        <form action="{{ url_for('checkpoint_model_pull') }}" method="POST">
-            <button name="action" class="waves-effect waves-light btn-large orange darken-2 col s2">Pull Model from Server
+    </div>
+    <div class="row">
+        <div class="col s2">
+            <h6>2. Train out local network</h6>
+        </div>
+        <form action="{{ url_for('train') }}" method="POST" class="col s10">
+            <button name="action" class="waves-effect waves-light btn-large orange darken-2">Train
             </button>
         </form>
     </div>
     <div class="row">
-        {% if success == True %}
-            <div class="col s6 offset-s3">
-                <h3>Your model was submitted successfully.</h3>
-            </div>
-        {% elif success == False %}
-            <div class="col s6 offset-s3">
-                <h3>Your model submission has failed.</h3>
-            </div>
-        {% endif %}
+        <div class="col s2">
+            <h6>3. Pull Model from Organization</h6>
+        </div>
+        <form action="{{ url_for('checkpoint_model_pull') }}" method="POST" class="col s10">
+            <button name="action" class="waves-effect waves-light btn-large orange darken-2">Pull Model
+            </button>
+        </form>
     </div>
-    <div class="row">
-        {% if error %}
-            <div class="col s6 offset-s3">
-                <h3>File upload failed.</h3>
-            </div>
-        {% endif %}
-    </div>
+</div>
+<div class="row">
+    {% if success == True %}
+        <div class="col s6 offset-s3">
+            <h3>Your model was submitted successfully.</h3>
+        </div>
+    {% elif success == False %}
+        <div class="col s6 offset-s3">
+            <h3>Your model submission has failed.</h3>
+        </div>
+    {% endif %}
+</div>
+<div class="row">
+    {% if error %}
+        <div class="col s6 offset-s3">
+            <h3>File upload failed.</h3>
+        </div>
+    {% endif %}
+</div>
 </body>
 </html>

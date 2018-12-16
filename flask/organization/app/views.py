@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for
 from app import *
 import os
-from app.models import FileData
+from app.file_model import FileData
 import requests
 
 CONTRACT_ADDRESS = None
@@ -115,3 +115,13 @@ def download():
         fetch_models_from_ipfs(fetch_file_data())
         print("Done")
         return redirect(url_for('display'))
+
+
+@app.route('/average', methods=['POST'])
+def average():
+    os.chdir('../ai')
+    print(os.path.abspath(os.curdir))
+    os.system('python3 ai.py org ../organization/models/merged.pkl > /dev/null')
+    os.chdir('../organization')
+
+    return redirect(url_for('display'))
