@@ -70,20 +70,37 @@
 <div class="row">
     {% if success == True %}
         <div class="col s6 offset-s3">
-            <h5><center>Your model was submitted successfully.</center></h5>
+            <h5>
+                <center>Your model was submitted successfully.</center>
+            </h5>
         </div>
     {% elif success == False %}
         <div class="col s6 offset-s3">
-            <h5><center>Your model submission has failed.</center></h5>
+            <h5>
+                <center>Your model submission has failed.</center>
+            </h5>
         </div>
     {% endif %}
 </div>
 <div class="row">
     {% if error %}
         <div class="col s6 offset-s3">
-            <h5><center>File upload failed.</center></h5>
+            <h5>
+                <center>File upload failed.</center>
+            </h5>
         </div>
     {% endif %}
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <p>
+            <center>Model Accuracy of client models</center>
+            </p>
+            {% if accuracy %}
+                <h5><center>{{ accuracy }}</center></h5>
+            {% endif %}
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

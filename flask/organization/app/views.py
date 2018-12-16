@@ -107,6 +107,8 @@ def choose_account(account_no):
 def display():
     if request.method == 'GET':
         fileData = fetch_file_data()
+        accounts = [server.toChecksumAddress(i) for i in server.eth.accounts]
+        #print(get_accuracy('models/model.pkl',0))
         return render_template('files.html', fileData=fileData)
 
 

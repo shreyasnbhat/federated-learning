@@ -97,17 +97,35 @@ def train_task(model, epochs, batch_size, disp_freq, trainset, testsets, placeX,
         return test_accs
 
 
+def get_accuracy(model_filename, client_id):
+
+    m = models[client_id]
+
+    m.load_weights(model_filename)
+
+    feed_dict = {placeX: X_t, placey: y_t}
+    accuracy = m.accuracy.eval(feed_dict=feed_dict)
+
+    return(accuracy)
+
+
 def ClientUpdate(model_filename, output_file):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
+        accs = []
         for i in range(MAX_CLIENTS):
             m = models[i]
             m.load_weights(model_filename)
             m.compute_fisher(X_t, sess, num_samples=200, plot_diffs=False)
-            train_task(m, epochs, batch_size, 20, [X[i], y[i]], [(X[0], y[0]), (X[1], y[1]), (X_t, y_t)], placeX[i],
+            acc = train_task(m, epochs, batch_size, 20, [X[i], y[i]], [(X[0], y[0]), (X[1], y[1]), (X_t, y_t)], placeX[i],
                        placey[i], lams=[0, 25])
             m.save_weights(output_file)
             print(i)
+            accs.append(acc[-1][-1])
+
+        print(accs)
+        with open('accuracy.txt', 'w') as f:
+                f.write("%s" % " ".join(map(str,accs)))
 
 
 ## Write or import

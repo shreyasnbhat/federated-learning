@@ -12,6 +12,12 @@ def bytes32_to_string(x):
     return output
 
 
+def get_accuracy():
+    file = open('../ai/accuracy.txt', 'r')
+    accuracy = file.read()
+
+    return accuracy
+
 def fetch_model_from_ipfs(ipfsHash):
     if not os.path.exists('models'):
         os.mkdir('models')
@@ -41,12 +47,12 @@ def homepage(account_no):
 def contract_operations():
     if request.method == 'GET':
         account = session.get('account', DEFAULT_ACCOUNT)
-        return render_template('functions.html', account=account)
+        return render_template('functions.html', account=account, accuracy = get_accuracy())
     else:
         return None
 
 
-@app.route('/addFileToIPFS', methods=['GET','POST'])
+@app.route('/addFileToIPFS', methods=['GET', 'POST'])
 def addFileToIPFS():
     if request.method == 'POST':
 
@@ -85,15 +91,16 @@ def addFileToIPFS():
                     {'from': account})
                 receipt = server.eth.waitForTransactionReceipt(tx_hash)
                 print("Gas Used ", receipt.gasUsed)
-                return render_template('functions.html', account=account, success=True)
+                return render_template('functions.html', account=account, success=True, accuracy = get_accuracy())
             else:
                 flash('No account was chosen')
-                return render_template('functions.html', account=account, success=False)
+                return render_template('functions.html', account=account, success=False, accuracy = get_accuracy())
 
         return render_template('functions.html', error="Something went wrong.")
 
     account = session.get('account', DEFAULT_ACCOUNT)
-    return render_template('functions.html', account = account)
+    return render_template('functions.html', account=account , accuracy = get_accuracy())
+
 
 def upload_file_sync(upload_file_filename_secure):
     with app.app_context():
@@ -122,7 +129,7 @@ def checkpoint_model_pull():
 
     ipfsHash = contract.call().getCheckPointIpfsHash()
 
-    print("IPFS Hash" , ipfsHash)
+    print("IPFS Hash", ipfsHash)
 
     fetch_model_from_ipfs(ipfsHash)
 
@@ -133,7 +140,8 @@ def checkpoint_model_pull():
 def train():
     os.chdir('../ai')
     print(os.path.abspath(os.curdir))
-    os.system('python3 ai.py client ../client/models/model.pkl ../client/models/model.pkl > /dev/null')
+    os.system('python3 ai.py client ../client/models/model.pkl ../client/models/model.pkl')
     os.chdir('../client')
 
-    return redirect(url_for('addFileToIPFS'))
+    account = session.get('account', DEFAULT_ACCOUNT)
+    return render_template('functions.html', account=account, accuracy=get_accuracy())
